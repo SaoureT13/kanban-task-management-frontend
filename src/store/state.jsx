@@ -12,12 +12,15 @@ export const useDataStore = create((set, get) => ({
         try {
             set({ mainLoading: true, errors: null });
             await new Promise((resolve) => setTimeout(resolve, 3000));
-            const response = await fetch(`${BASE_URL}/api/all_boards`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_API_ENDPOINT}/api/all_boards`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
 
             if (!response.ok) {
                 const errorsData = await response.json();
@@ -229,13 +232,16 @@ export const useDataStore = create((set, get) => ({
     updateTask: async (body) => {
         try {
             set({ loading: true });
-            const response = await fetch(`${BASE_URL}/api/update_task`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body),
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_API_ENDPOINT}/api/update_task`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                }
+            );
             if (!response.ok) {
                 const errorData = await response.json();
                 set({ errors: errorData, loading: false });
