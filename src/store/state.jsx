@@ -41,7 +41,7 @@ export const useDataStore = create((set, get) => ({
     createBoard: async (body) => {
         try {
             set({ errors: null, loading: true });
-            const response = await fetch(`${BASE_URL}/api/create_board`, {
+            const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/create_board`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export const useDataStore = create((set, get) => ({
     createTask: async (body) => {
         set({ errors: null, loading: true });
         try {
-            const response = await fetch(`${BASE_URL}/api/create_task`, {
+            const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/create_task`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export const useDataStore = create((set, get) => ({
     editBoard: async (body) => {
         try {
             set({ errors: null, loading: true });
-            const response = await fetch(`${BASE_URL}/api/update_board`, {
+            const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/update_board`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export const useDataStore = create((set, get) => ({
         try {
             set({ errors: null, loading: true });
             const response = await fetch(
-                `${BASE_URL}/api/delete_board?board_id=${boardId}`,
+                `${import.meta.env.VITE_API_ENDPOINT}/api/delete_board?board_id=${boardId}`,
                 {
                     method: "DELETE",
                 }
@@ -151,7 +151,7 @@ export const useDataStore = create((set, get) => ({
         try {
             set({ errors: null, loading: true });
             const response = await fetch(
-                `${BASE_URL}/api/update_subtask?subtask_id=${subtaskId}`,
+                `${import.meta.env.VITE_API_ENDPOINT}/api/update_subtask?subtask_id=${subtaskId}`,
                 {
                     method: "PUT",
                 }
@@ -183,7 +183,7 @@ export const useDataStore = create((set, get) => ({
         try {
             set({ loading: true });
             const response = await fetch(
-                `${BASE_URL}/api/update_task_column?task_id=${taskId}&column_id=${columnId}`,
+                `${import.meta.env.VITE_API_ENDPOINT}/api/update_task_column?task_id=${taskId}&column_id=${columnId}`,
                 {
                     method: "PUT",
                 }
@@ -207,7 +207,7 @@ export const useDataStore = create((set, get) => ({
         try {
             set({ loading: true });
             const response = await fetch(
-                `${BASE_URL}/api/delete_task?task_id=${taskId}`,
+                `${import.meta.env.VITE_API_ENDPOINT}/api/delete_task?task_id=${taskId}`,
                 {
                     method: "DELETE",
                 }
