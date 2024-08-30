@@ -125,6 +125,7 @@ function SideBar({ hide, onHideSidebar, onToggleTheme, checked }) {
                                     id="toggleCheckbox"
                                     className="absolute top-0 bottom-0 left-0 right-0 opacity-0 z-10 cursor-pointer"
                                     checked={checked}
+                                    onChange={onToggleTheme}
                                 />
                                 <span
                                     className={`z-8 bg-white h-[15px] w-[15px] top-1/2 translate-y-[-50%] rounded-full absolute ${

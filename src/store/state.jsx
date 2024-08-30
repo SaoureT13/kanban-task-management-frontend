@@ -1,17 +1,15 @@
 import { create } from "zustand";
-import { BASE_URL } from "../api/config.js";
 
 export const useDataStore = create((set, get) => ({
     data: [],
     mainLoading: true,
-    loading: true,
+    loading: false,
     errors: null,
     selectedBoard: null,
 
     getAllData: async () => {
         try {
             set({ mainLoading: true, errors: null });
-            await new Promise((resolve) => setTimeout(resolve, 3000));
             const response = await fetch(
                 `${import.meta.env.VITE_API_ENDPOINT}/api/all_boards`,
                 {
@@ -41,13 +39,16 @@ export const useDataStore = create((set, get) => ({
     createBoard: async (body) => {
         try {
             set({ errors: null, loading: true });
-            const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/create_board`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body),
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_API_ENDPOINT}/api/create_board`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                }
+            );
             if (!response.ok) {
                 const errorsData = await response.json();
                 set({ errors: errorsData, loading: false });
@@ -68,13 +69,16 @@ export const useDataStore = create((set, get) => ({
     createTask: async (body) => {
         set({ errors: null, loading: true });
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/create_task`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body),
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_API_ENDPOINT}/api/create_task`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                }
+            );
             if (!response.ok) {
                 const errorsData = await response.json();
                 set({ errors: errorsData, loading: false });
@@ -94,13 +98,16 @@ export const useDataStore = create((set, get) => ({
     editBoard: async (body) => {
         try {
             set({ errors: null, loading: true });
-            const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/update_board`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body),
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_API_ENDPOINT}/api/update_board`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                }
+            );
             if (!response.ok) {
                 const errorsData = await response.json();
                 set({ errors: errorsData, loading: true });
@@ -121,7 +128,9 @@ export const useDataStore = create((set, get) => ({
         try {
             set({ errors: null, loading: true });
             const response = await fetch(
-                `${import.meta.env.VITE_API_ENDPOINT}/api/delete_board?board_id=${boardId}`,
+                `${
+                    import.meta.env.VITE_API_ENDPOINT
+                }/api/delete_board?board_id=${boardId}`,
                 {
                     method: "DELETE",
                 }
@@ -151,7 +160,9 @@ export const useDataStore = create((set, get) => ({
         try {
             set({ errors: null, loading: true });
             const response = await fetch(
-                `${import.meta.env.VITE_API_ENDPOINT}/api/update_subtask?subtask_id=${subtaskId}`,
+                `${
+                    import.meta.env.VITE_API_ENDPOINT
+                }/api/update_subtask?subtask_id=${subtaskId}`,
                 {
                     method: "PUT",
                 }
@@ -172,7 +183,6 @@ export const useDataStore = create((set, get) => ({
                         loading: false,
                     }));
                 }
-                console.log(get().data);
             }
         } catch (errors) {
             set({ errors: errors.message, loading: false });
@@ -183,7 +193,9 @@ export const useDataStore = create((set, get) => ({
         try {
             set({ loading: true });
             const response = await fetch(
-                `${import.meta.env.VITE_API_ENDPOINT}/api/update_task_column?task_id=${taskId}&column_id=${columnId}`,
+                `${
+                    import.meta.env.VITE_API_ENDPOINT
+                }/api/update_task_column?task_id=${taskId}&column_id=${columnId}`,
                 {
                     method: "PUT",
                 }
@@ -207,7 +219,9 @@ export const useDataStore = create((set, get) => ({
         try {
             set({ loading: true });
             const response = await fetch(
-                `${import.meta.env.VITE_API_ENDPOINT}/api/delete_task?task_id=${taskId}`,
+                `${
+                    import.meta.env.VITE_API_ENDPOINT
+                }/api/delete_task?task_id=${taskId}`,
                 {
                     method: "DELETE",
                 }

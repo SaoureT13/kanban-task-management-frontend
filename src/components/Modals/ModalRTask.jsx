@@ -129,7 +129,9 @@ function ModalTask({
                                 <button
                                     onClick={setShow}
                                     className={`w-full flex justify-between items-center rounded-md p-3 border-[2px] text-very-dark-grey font-bold capitalize hover:cursor-pointer bg-white  dark:bg-dark-grey dark:text-white dark:border-lines-dark hover:border-main-purple outline-[1px] outline-main-purple border-lines-light transition-all duration-300 ease-in-out ${
-                                        show ? "border-main-purple dark:border-main-purple" : ""
+                                        show
+                                            ? "border-main-purple dark:border-main-purple"
+                                            : ""
                                     }`}
                                 >
                                     <span>{currentColumn}</span>
@@ -207,11 +209,15 @@ function ModalTask({
 function Subtask({ subtask }) {
     const { updateCompletedSubTask } = useDataStore();
     const [checked, setChecked] = useBoolean(subtask.is_completed);
+    const [isLoading, setIsLoading] = useState(false);
     const handleCheckedTask = async (subtaskID) => {
+        setIsLoading(true);
         try {
             await updateCompletedSubTask(subtaskID);
         } catch (error) {
             console.log(error.message);
+        } finally {
+            setIsLoading(false);
         }
         setChecked((v) => !v);
     };
@@ -219,14 +225,16 @@ function Subtask({ subtask }) {
     return (
         <div
             key={subtask.id}
-            className="flex gap-4 w-full bg-light-grey dark:bg-dark-grey hover:bg-main-purple-light/10 cursor-pointer p-4 rounded-md text-base text-black"
-            onClick={() => handleCheckedTask(subtask.id)}
+            className="flex gap-4 w-full bg-light-grey hover:bg-main-purple-light dark:bg-dark-grey hover:dark:bg-main-purple p-4 rounded-md text-base text-black transition-all duration-150 ease-in-out"
         >
             <input
                 type="checkbox"
                 id={`subtask-${subtask.id}`}
                 checked={checked}
-                onChange={() => handleCheckedTask(subtask.id)}
+                onChange={(e) => {
+                    handleCheckedTask(subtask.id);
+                    e.stopPropagation();
+                }}
                 className="w-6 cursor-pointer shrink-0"
             />
             <label
@@ -239,6 +247,26 @@ function Subtask({ subtask }) {
             >
                 {subtask.title}
             </label>
+            {isLoading && (
+                <div role="status">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        className="inline w-4 h-4 text-gray-200 animate-spin dark:text-gray-600 dark:fill-white fill-dark-grey"
+                        viewBox="0 0 100 101"
+                    >
+                        <path
+                            fill="currentColor"
+                            d="M100 50.59c0 27.615-22.386 50.001-50 50.001s-50-22.386-50-50 22.386-50 50-50 50 22.386 50 50zm-90.919 0c0 22.6 18.32 40.92 40.919 40.92 22.599 0 40.919-18.32 40.919-40.92 0-22.598-18.32-40.918-40.919-40.918-22.599 0-40.919 18.32-40.919 40.919z"
+                        ></path>
+                        <path
+                            fill="currentFill"
+                            d="M93.968 39.04c2.425-.636 3.894-3.128 3.04-5.486A50 50 0 0041.735 1.279c-2.474.414-3.922 2.919-3.285 5.344.637 2.426 3.12 3.849 5.6 3.484a40.916 40.916 0 0144.131 25.769c.902 2.34 3.361 3.802 5.787 3.165z"
+                        ></path>
+                    </svg>
+                    <span className="sr-only">Loading...</span>
+                </div>
+            )}
         </div>
     );
 }
